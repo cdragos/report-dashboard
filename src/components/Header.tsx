@@ -2,8 +2,12 @@ import Grid from '@mui/material/Grid'
 import styled from 'styled-components'
 import {ReactComponent as LogoSvg} from 'assets/svg/logo.svg'
 import {ReactComponent as NavToggleSvg} from 'assets/svg/nav-toggle.svg'
+import {useUserContext} from 'contexts/UserContext'
+import Skeleton from '@mui/material/Skeleton'
 
 export default function Header() {
+  const {user, isLoading} = useUserContext()
+
   return (
     <HeaderContainer container>
       <Grid item xs={6}>
@@ -14,8 +18,19 @@ export default function Header() {
       </Grid>
       <Grid item xs={6}>
         <UserContainer>
-          <UserAvatar>JD</UserAvatar>
-          <UserName>John Doe</UserName>
+          {isLoading ? (
+            <>
+              <Skeleton variant="rounded" width={43} height={43} />
+              <Skeleton variant="rounded" width={70} height={43} />
+            </>
+          ) : (
+            <>
+              <UserAvatar>{user && user.initials}</UserAvatar>
+              <UserName>
+                {user && `${user.firstName} ${user.lastName}`}
+              </UserName>
+            </>
+          )}
         </UserContainer>
       </Grid>
     </HeaderContainer>
