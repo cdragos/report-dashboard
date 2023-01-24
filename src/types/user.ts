@@ -7,7 +7,7 @@ export interface User {
 }
 
 export interface UserContextInterface {
-  user: User | undefined | null
+  user: User | null
   isLoading: boolean
 }
 

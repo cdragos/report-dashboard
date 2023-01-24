@@ -1,14 +1,15 @@
 
 import api from 'api'
 import {useQuery} from 'react-query'
-import {GatewayContextInterface, Gateway} from 'types/gateway'
+import {GatewayHookInterface, Gateway} from 'types/gateway'
 
-function transformResponse(data: any): Gateway {
-  const gateway = data.data[0]
-  return {
-    gatewayId: gateway.gatewayId,
-    name: gateway.name,
-  }
+function transformResponse(results: { data: Array<object> }): Gateway[] {
+  return results.data.map(
+    (result: any) => ({
+      gatewayId: result.gatewayId,
+      name: result.name,
+    })
+  )
 }
 
 async function getGateways() {
@@ -16,10 +17,10 @@ async function getGateways() {
   return data
 }
 
-export default function useGateways(): GatewayContextInterface {
-  const {data: gateways, isLoading} = useQuery('gateways', getGateways, {
+export default function useGateways(): GatewayHookInterface {
+  const {data, isLoading} = useQuery('gateways', getGateways, {
     select: transformResponse,
   })
-
+  const gateways = data || null;
   return {gateways, isLoading}
 }

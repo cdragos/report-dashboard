@@ -19,9 +19,9 @@ async function getUser() {
 }
 
 export default function useUser(): UserContextInterface {
-  const {data: user, isLoading} = useQuery('user', getUser, {
+  const {data, isLoading} = useQuery('user', getUser, {
     select: transformResponse,
   })
-
+  const user = data || null;
   return {user, isLoading}
 }

@@ -1,15 +1,15 @@
 
 import api from 'api'
 import {useQuery} from 'react-query'
-import {ProjectContextInterface, Project} from 'types/project'
+import {ProjectHookInterface, Project} from 'types/project'
 
-function transformResponse(data: any): Project {
-  const project = data.data[0]
-  return {
-    projectId: project.projectId,
-    name: project.name,
-  }
-
+function transformResponse(results: { data: Array<object> }): Project[] {
+  return results.data.map(
+    (result: any) => ({
+      projectId: result.projectId,
+      name: result.name,
+    })
+  )
 }
 
 async function getProjects() {
@@ -17,10 +17,10 @@ async function getProjects() {
   return data
 }
 
-export default function useProjects(): ProjectContextInterface {
-  const {data: projects, isLoading} = useQuery('projects', getProjects, {
+export default function useProjects(): ProjectHookInterface {
+  const {data, isLoading} = useQuery('projects', getProjects, {
     select: transformResponse,
   })
-
+  const projects = data || null;
   return {projects, isLoading}
 }

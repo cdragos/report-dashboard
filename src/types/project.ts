@@ -3,8 +3,8 @@ export interface Project {
   name: string
 }
 
-export interface ProjectContextInterface {
-  projects: Project | undefined | null
+export interface ProjectHookInterface {
+  projects: Project[] | null
   isLoading: boolean
 }
 

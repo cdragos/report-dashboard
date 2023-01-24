@@ -1,35 +1,29 @@
 import React from 'react'
+import Grid from '@mui/material/Grid'
 import Header from 'components/Header'
 import {UserProvider} from 'contexts/UserContext'
-import {QueryClient, QueryClientProvider} from 'react-query'
-
-const twentyFourHoursInMs = 1000 * 60 * 60 * 24
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      // Undo React Query's aggressive default settings.
-      // Docs: https://react-query.tanstack.com/guides/important-defaults
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-      // Query instances via useQuery or useInfiniteQuery by default consider cached data as stale.
-      staleTime: twentyFourHoursInMs,
-    },
-  },
-})
+import styled from 'styled-components'
+import Navbar from 'components/Navbar'
+import Dashboard from 'components/Dashboard'
 
 export default function App() {
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <UserProvider>
-          <Header />
-          <div>
-            <h1>Hello World</h1>
-          </div>
-        </UserProvider>
-      </QueryClientProvider>
+      <UserProvider>
+        <Header />
+        <Container container>
+          <Grid item xs={1}>
+            <Navbar />
+          </Grid>
+          <Grid item xs={11}>
+            <Dashboard />
+          </Grid>
+        </Container>
+      </UserProvider>
     </>
   )
 }
+
+const Container = styled(Grid)`
+  padding: ${props => props.theme.spacing(5)} ${props => props.theme.spacing(5)};
+`

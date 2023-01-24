@@ -3,8 +3,8 @@ export interface Gateway {
   name: string
 }
 
-export interface GatewayContextInterface {
-  gateways: Gateway | undefined | null
+export interface GatewayHookInterface {
+  gateways: Gateway[] | null
   isLoading: boolean
 }
 
