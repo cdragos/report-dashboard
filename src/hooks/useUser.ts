@@ -3,7 +3,7 @@ import api from 'api'
 import {UserContextInterface, User} from 'types/user'
 
 function transformResponse(data: any): User {
-  const user = data[0].data[0]
+  const user = data.data[0]
   return {
     userId: user.id,
     firstName: user.firstName,
@@ -18,7 +18,7 @@ async function getUser() {
   return data
 }
 
-  export default function useUser(): UserContextInterface {
+export default function useUser(): UserContextInterface {
   const {data: user, isLoading} = useQuery('user', getUser, {
     select: transformResponse,
   })
