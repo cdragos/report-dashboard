@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import Navbar from 'components/Navbar'
 import Dashboard from 'components/Dashboard'
 
+import 'react-datepicker/dist/react-datepicker.css'
+
 export default function App() {
   return (
     <>

@@ -7,25 +7,35 @@ import useReport from 'hooks/useReport'
 import {useState} from 'react'
 import DashboardEmpty from './DashboardEmpty'
 import ReportFilters from './ReportFilters'
+import ReportTable from './ReportTable'
 
 export default function Dashboard() {
   const {projects, isLoading: isLoadingProjects} = useProjects()
   const {gateways, isLoading: isLoadingGateways} = useGateways()
   const isFilterLoading = isLoadingProjects && isLoadingGateways
 
-  const [projectId, setProjectId] = useState<number | null>(null)
-  const [gatewayId, setGatewayId] = useState<number | null>(null)
+  const [projectId, setProjectId] = useState<string | null>(null)
+  const [gatewayId, setGatewayId] = useState<string | null>(null)
+  const [startDate, setStartDate] = useState<Date | null>(null)
+  const [endDate, setEndDate] = useState<Date | null>(null)
+
   const handleFilterChange = (
-    projectId: number | null,
-    gatewayId: number | null,
+    projectId: string | null,
+    gatewayId: string | null,
+    startDate: Date | null,
+    endDate: Date | null,
   ) => {
     setProjectId(projectId)
     setGatewayId(gatewayId)
+    setStartDate(startDate)
+    setEndDate(endDate)
   }
 
   const {reports, isLoading: isLoadingReports} = useReport({
     projectId,
     gatewayId,
+    startDate,
+    endDate,
   })
 
   return (
@@ -51,8 +61,14 @@ export default function Dashboard() {
           )}
         </Grid>
       </Grid>
-      <Box mt={15}>
-        <DashboardEmpty />
+      <Box mt={5}>
+        {isLoadingReports ? (
+          <div>Loading...</div>
+        ) : reports && reports.length > 0 ? (
+          <ReportTable projects={projects} reports={reports} />
+        ) : (
+          <DashboardEmpty />
+        )}
       </Box>
     </Box>
   )

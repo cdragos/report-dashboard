@@ -3,7 +3,9 @@ import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
 import Stack from '@mui/material/Stack'
 import Menu from '@mui/material/Menu'
+import DatePicker from 'react-datepicker'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import {Project} from 'types/project'
 import {Gateway} from 'types/gateway'
 
@@ -11,8 +13,10 @@ interface Props {
   projects: Project[] | null
   gateways: Gateway[] | null
   handleFilterChange: (
-    projectId: number | null,
-    gatewayId: number | null,
+    projectId: string | null,
+    gatewayId: string | null,
+    startDate: Date | null,
+    endDate: Date | null,
   ) => void
 }
 
@@ -24,12 +28,14 @@ export default function ReportFilters({
   const [projectsAnchorEl, setProjectsAnchorEl] = useState<null | HTMLElement>(
     null,
   )
-  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
     null,
   )
-  const [selectedGatewayId, setSelectedGatewayId] = useState<number | null>(
+  const [selectedGatewayId, setSelectedGatewayId] = useState<string | null>(
     null,
   )
+  const [startDate, setStartDate] = useState<Date | null>(null)
+  const [endDate, setEndDate] = useState<Date | null>(null)
 
   const projectsOpen = Boolean(projectsAnchorEl)
   const [gatewaysAnchorEl, setGatewaysAnchorEl] = useState<null | HTMLElement>(
@@ -38,7 +44,7 @@ export default function ReportFilters({
   const gatewaysOpen = Boolean(gatewaysAnchorEl)
 
   const handleGenerateReport = () => {
-    handleFilterChange(selectedProjectId, selectedGatewayId)
+    handleFilterChange(selectedProjectId, selectedGatewayId, startDate, endDate)
   }
 
   return (
@@ -124,6 +130,40 @@ export default function ReportFilters({
               </MenuItem>
             ))}
         </Menu>
+      </div>
+      <div>
+        <DatePicker
+          selected={new Date()}
+          onChange={date => {
+            setStartDate(date)
+          }}
+          customInput={
+            <Button
+              variant="contained"
+              color="secondary"
+              endIcon={<CalendarMonthIcon />}
+            >
+              Start Date
+            </Button>
+          }
+        />
+      </div>
+      <div>
+        <DatePicker
+          selected={new Date()}
+          onChange={date => {
+            setEndDate(date)
+          }}
+          customInput={
+            <Button
+              variant="contained"
+              color="secondary"
+              endIcon={<CalendarMonthIcon />}
+            >
+              End Date
+            </Button>
+          }
+        />
       </div>
       <div>
         <Button variant="contained" onClick={handleGenerateReport}>

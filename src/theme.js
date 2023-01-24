@@ -18,8 +18,11 @@ const theme = createTheme({
     },
     background: {
       yellow: '#F6CA65',
+      lightBlue: '#F1FAFE',
+      white: '#FFFFFF',
     },
     text: {
+      primary: '#011F4B',
       grey: '#7E8299',
       white: '#FFFFFF',
       link: '#005B96',
@@ -37,6 +40,11 @@ const theme = createTheme({
     h2: {
       fontSize: '1rem',
       lineHeight: '1.172rem',
+    },
+    tableHeader: {
+      fontSize: '1rem',
+      lineHeight: '1.172rem',
+      fontWeight: 700,
     },
   },
   components: {
