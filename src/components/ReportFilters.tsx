@@ -47,6 +47,17 @@ export default function ReportFilters({
     handleFilterChange(selectedProjectId, selectedGatewayId, startDate, endDate)
   }
 
+  /**
+    Filter the date range to be between 2021/01/01 and 2021/12/31
+    @param {Date} date
+    @returns {boolean} whether the date is between 2021/01/01 and 2021/12/31
+    */
+  const filterDateRange = (date: Date) => {
+    const start = new Date('2021/01/01')
+    const end = new Date('2021/12/31')
+    return date >= start && date <= end
+  }
+
   return (
     <Stack direction="row" justifyContent="flex-end" spacing={2} height="80px">
       <div>
@@ -133,10 +144,11 @@ export default function ReportFilters({
       </div>
       <div>
         <DatePicker
-          selected={new Date()}
+          selected={new Date('2021/01/01')}
           onChange={date => {
             setStartDate(date)
           }}
+          filterDate={filterDateRange}
           customInput={
             <Button
               variant="contained"
@@ -150,10 +162,11 @@ export default function ReportFilters({
       </div>
       <div>
         <DatePicker
-          selected={new Date()}
+          selected={new Date('2021/01/10')}
           onChange={date => {
             setEndDate(date)
           }}
+          filterDate={filterDateRange}
           customInput={
             <Button
               variant="contained"

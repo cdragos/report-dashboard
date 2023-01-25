@@ -2,7 +2,12 @@ import {useQuery} from 'react-query'
 import api from 'api'
 import {UserContextInterface, User} from 'types/user'
 
-function transformResponse(data: any): User {
+/**
+ * Transforms the response from the API into a more usable format
+ * @param {Object} data - The results from the API
+ * @returns {User}
+ */
+function transformResponse(data: {data: Array<any>}): User {
   const user = data.data[0]
   return {
     userId: user.id,
@@ -13,11 +18,19 @@ function transformResponse(data: any): User {
   }
 }
 
+/**
+ * Fetches the user from the API
+ * @returns {Promise<User>}
+ */
 async function getUser() {
   const {data} = await api.get('/users')
   return data
 }
 
+/**
+ * Hook for fetching the user from the API
+ * @returns {UserContextInterface}
+ */
 export default function useUser(): UserContextInterface {
   const {data, isLoading} = useQuery('user', getUser, {
     select: transformResponse,
